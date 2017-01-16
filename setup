@@ -1,0 +1,10 @@
+#!/bin/sh
+#sudo apt-get update
+#sudo apt-get install git-core
+
+# get the basic repos we need
+#git clone git@github.com:VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+#git clone git@github.com:gritlogic/dotfiles.git
+
+#ln -Ls dotfiles/.vim/.vimrc ~/.vimrc
+#ln -Ls dotfiles/.tmux.conf ~/.tmux.conf
