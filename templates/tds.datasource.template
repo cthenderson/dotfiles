@@ -1,0 +1,7 @@
+[stage] 
+Driver  = FreeTDS 
+Description     = Database Description
+Trace   = No 
+Server      = 10.10.10.10
+Port      = 1433 
+Database        = master
