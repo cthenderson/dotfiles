@@ -1,58 +1,52 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-" Git plugin not hosted on GitHub
-Plugin 'git://git.wincent.com/command-t.git'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-"Plugin 'scrooloose/nerdtree'
-set number
-set tabstop=2
-set shiftwidth=2
+syntax enable
+set incsearch
+set tabstop=4
+set shiftwidth=4
 set expandtab
 set hlsearch
-map ,t :tabnew
-map ,' :noh
-"map ,n :NERDTreeToggle<cr>
-filetype plugin on
-set term=ansi
-syntax enable
-"folding settings
+set laststatus=2
+set statusline=%-50.f%=(%l,%c)
+nnoremap    <silent>    <F4>    :! . ./send_file_to_docker_container.sh %<CR> 
+nnoremap                di      :! clear; ls -lsth
+map                     ,t      :tabnew
+nmap        <silent>    ,'      :noh<CR>
+nmap        <silent>    ,j      :wincmd j<CR>
+nmap        <silent>    ,k      :wincmd k<CR>
+nmap        <silent>    ,h      :wincmd h<CR>
+nmap        <silent>    ,l      :wincmd l<CR>
+
+if &term =~ '^screen'
+    " tmux will send xterm-style keys when its xterm-keys option is on
+    execute "set <xUp>=\e[1;*A"
+    execute "set <xDown>=\e[1;*B"
+    execute "set <xRight>=\e[1;*C"
+    execute "set <xLeft>=\e[1;*D"
+endif
+
+nmap <silent> <S-Tab>    :tabn<CR>
+nmap <silent> <S-Left>   :tabp<CR>
+nmap <silent> <S-Right>  :tabn<CR>
+
+" Copy to system clipboard
+nmap <silent> yy :yank *<CR>
+nmap <silent> dd :delete *<CR>
+vmap <silent> y :yank *<CR>
+vmap <silent> d :delete *<CR>
+
+imap jj <Esc>
+
 set smartindent
-set foldmethod=indent   "fold based on indent
-set foldnestmax=10      "deepest fold is 10 levels
-set nofoldenable        "dont fold by default
-set foldlevel=1         "this is just what i use
+set foldmethod=indent
+set foldnestmax=10
+set foldlevel=1
 
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Hybrid Line Numbers
+set number
 
-autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
+
+"augroup END
